@@ -1,3 +1,29 @@
 = Import
 
-This project rocks and uses MIT-LICENSE.
+== Install
+
+Add Import to your Gemfile:
+
+    gem 'import', git: 'https://github.com/milabent/import.git', branch: 'master'
+
+Import migrations and execute them:
+
+    rake import_engine:install:migrations
+    rake db:migrate
+
+Create your import resource:
+
+    class Import::Resources::User < Import::Resources::Base
+        validates :name, presence: true
+        import do
+          ::User.create(name: name)
+        end
+    end
+
+Create a plan, e.g. via rails console:
+
+    Plan.create(url: 'http://example.org/users', resource_type: 'Import::Resources::User')
+
+Run your plans, e.g. via rails console:
+
+    Import::Command::import_all

@@ -9,9 +9,9 @@ Gem::Specification.new do |s|
   s.version     = Import::VERSION
   s.authors     = ["Sebastian Gaul"]
   s.email       = ["sgaul@milabent.com"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of Import."
-  s.description = "TODO: Description of Import."
+  s.homepage    = "http://milabent.com"
+  s.summary     = "A simple HTTP JSON import helper"
+  s.description = "A simple HTTP JSON import helper"
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
