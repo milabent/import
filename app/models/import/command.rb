@@ -10,15 +10,35 @@ class Import::Command
   end
 
   def initialize(plan)
+    @plan = plan
     @url = plan.url
     @resource_class = plan.resource_class
   end
 
   def execute
-    @resource_class.with_import_url(@url).all.each do |resource|
+    successes = 0
+    resource_collection.each do |resource|
       if resource.valid?
-        resource._create_data_from_import
+        begin
+          successes += 1 if resource._create_data_from_import
+        rescue => e
+          Import::Log.create_error(@plan, e.to_s, resource.to_json)
+        end
+      else
+        Import::Log.create_error(@plan, 'Invalid resource', resource.to_json)
       end
+    end
+    if successes > 0
+      Import::Log.create_success(@plan, "Imported #{successes} resources")
+    end
+  end
+
+  def resource_collection
+    begin
+      @resource_class.with_import_url(@url).all
+    rescue => e
+      Import::Log.create_error(@plan, e.to_s)
+      []
     end
   end
 end
