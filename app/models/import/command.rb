@@ -1,6 +1,6 @@
 class Import::Command
   def self.import_all
-    Plan.all.each do |plan|
+    Import::Plan.all.each do |plan|
       import(plan)
     end
   end
