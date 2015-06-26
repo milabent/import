@@ -18,7 +18,7 @@ Create your import resource:
     class Import::Resources::User < Import::Resources::Base
         validates :name, presence: true
         import do
-          ::User.create(name: name)
+          ::User.create!(name: name)
         end
     end
 
@@ -46,15 +46,23 @@ To trigger a partial import you have to use continue_import instead of import_al
 
 = Extend Import::Plan
 
-Sometimes you need additional fields on the plan model. You can add those fields via migration and extend the model like this:
+Often you'll need additional information during the import. You can add fields via migration to table import_plans and extend the model like this:
 
     # yourapp/app/models/import/plan.rb
 
+    # Ensure the original model is loaded before:
     require Import::Engine.root.join('app', 'models', 'import', 'plan')
 
     class Import::Plan < ActiveRecord::Base
-      belongs_to :user
-      validates :user, :some_string, presence: true
+      belongs_to :user_group
+      validates :user_group, presence: true
     end
 
-This allows you to use this fields for the import.
+This allows you to use this fields for the import:
+
+    class Import::Resources::User < Import::Resources::Base
+        validates :name, presence: true
+        import do |plan|
+          ::User.create!(name: name, group: plan.user_group)
+        end
+    end

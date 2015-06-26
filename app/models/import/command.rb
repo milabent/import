@@ -23,7 +23,7 @@ class Import::Command
     resource_collection.each do |resource|
       if resource.valid?
         begin
-          @successes += 1 if resource._create_data_from_import
+          @successes += 1 if resource._create_data_from_import(@plan)
         rescue => e
           Import::Log.create_error(@plan, e.to_s, resource.to_json)
         end
