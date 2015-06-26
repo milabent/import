@@ -20,3 +20,15 @@ de:
         continue_import: Import aktualisieren
         import_all: Neuimport ausführen
         are_you_sure: Sind Sie sicher?
+  admin:
+    import_plans:
+      continue_import:
+        n_resources_imported:
+          zero: Keine Ressourcen importiert
+          one: Eine Ressource importiert
+          other: '%{count} Ressourcen importiert'
+      import_all:
+        n_resources_imported:
+          zero: Keine Ressourcen importiert
+          one: Eine Ressource importiert
+          other: '%{count} Ressourcen importiert'

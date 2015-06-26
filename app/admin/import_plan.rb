@@ -13,12 +13,12 @@ if defined?(ActiveAdmin)
 
     member_action :import_all, method: :put do
       imports = Import::Command.new(resource, import_all: true).execute
-      redirect_to resource_path, notice: "Imported #{imports} resource(s)"
+      redirect_to resource_path, notice: t('.n_resources_imported', count: imports)
     end
 
     member_action :continue_import, method: :put do
       imports = Import::Command.new(resource, import_all: false).execute
-      redirect_to resource_path, notice: "Imported #{imports} resource(s)"
+      redirect_to resource_path, notice: t('.n_resources_imported', count: imports)
     end
 
     action_item :view, only: :show do
