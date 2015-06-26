@@ -32,6 +32,7 @@ class Import::Command
       end
     end
     create_result_log
+    @successes
   end
 
   private
