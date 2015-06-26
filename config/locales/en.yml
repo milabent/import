@@ -1,0 +1,7 @@
+en:
+  active_admin:
+    resource:
+      show:
+        continue_import: Continue import
+        import_all: Start new import
+        are_you_sure: Are you sure?

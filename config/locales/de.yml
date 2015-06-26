@@ -1,0 +1,22 @@
+de:
+  activerecord:
+    models:
+      import/plan:
+        one: Import-Plan
+        other: Import-Pläne
+      import/log:
+        one: Import-Log
+        other: Import-Logs
+    attributes:
+      import/plan:
+        url: URL
+        resource_type: Ressourcentyp
+        interval: Intervall
+        created_at: Erstellt am
+        updated_at: Geändert am
+  active_admin:
+    resource:
+      show:
+        continue_import: Import aktualisieren
+        import_all: Neuimport ausführen
+        are_you_sure: Sind Sie sicher?
