@@ -51,7 +51,7 @@ Often you'll need additional information during the import. You can add fields v
     # yourapp/app/models/import/plan.rb
 
     # Ensure the original model is loaded before:
-    require Import::Engine.root.join('app', 'models', 'import', 'plan')
+    require_dependency Import::Engine.root.join('app', 'models', 'import', 'plan')
 
     class Import::Plan < ActiveRecord::Base
       belongs_to :user_group
