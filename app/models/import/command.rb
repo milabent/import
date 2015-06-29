@@ -21,16 +21,27 @@ class Import::Command
   end
 
   def execute
-    resource_collection.each do |resource|
-      around_resource_import(resource) do
-        resource._create_data_from_import(@plan)
+    collection = resource_collection
+    around_collection(collection) do
+      collection.each do |resource|
+        around_resource(resource) do
+          resource._create_data_from_import(@plan)
+        end
       end
     end
   end
 
   protected
 
-  def around_resource_import(resource)
+  def import_all?
+    @import_all
+  end
+
+  def around_collection(collection)
+    yield
+  end
+
+  def around_resource(resource)
     yield
   end
 
@@ -49,6 +60,6 @@ class Import::Command
 
   def last_success
     time = Import::Log.last_success(@plan).try(:created_at)
-    time && !@import_all ? time.utc.iso8601 : ''
+    time && !import_all? ? time.utc.iso8601 : ''
   end
 end

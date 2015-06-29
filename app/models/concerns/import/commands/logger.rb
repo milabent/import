@@ -1,18 +1,14 @@
 module Import::Commands::Logger
   extend ActiveSupport::Concern
 
-  def initialize(plan, import_all: false)
-    super
+  def around_collection(collection)
     @successes = 0
-  end
-
-  def execute
     super
     create_result_log
     @successes
   end
 
-  def around_resource_import(resource, &block)
+  def around_resource(resource)
     if resource.valid?
       begin
         @successes += 1 if super
