@@ -6,6 +6,7 @@ if defined?(ActiveAdmin)
     index do
       selectable_column
       id_column
+      column :name
       column :url
       column :created_at
       actions

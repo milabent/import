@@ -1,5 +1,5 @@
 class Import::Plan < ActiveRecord::Base
-  validates :url, :resource_type, presence: true
+  validates :name, :url, :resource_type, presence: true
   validate :valid_resource_type
 
   def resource_class
