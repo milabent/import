@@ -1,4 +1,6 @@
 class Import::Command
+  prepend Import::Commands::Logger
+
   def self.continue_import(options = {})
     Import::Plan.all.each do |plan|
       new(plan, import_all: false).execute
@@ -16,26 +18,21 @@ class Import::Command
     @url = plan.url
     @resource_class = plan.resource_class
     @import_all = import_all
-    @successes = 0
   end
 
   def execute
     resource_collection.each do |resource|
-      if resource.valid?
-        begin
-          @successes += 1 if resource._create_data_from_import(@plan)
-        rescue => e
-          Import::Log.create_error(@plan, e.to_s, resource.to_json)
-        end
-      else
-        Import::Log.create_error(@plan, 'Invalid resource', resource.to_json)
+      around_resource_import(resource) do
+        resource._create_data_from_import(@plan)
       end
     end
-    create_result_log
-    @successes
   end
 
-  private
+  protected
+
+  def around_resource_import(resource)
+    yield
+  end
 
   def resource_collection
     begin
@@ -53,13 +50,5 @@ class Import::Command
   def last_success
     time = Import::Log.last_success(@plan).try(:created_at)
     time && !@import_all ? time.utc.iso8601 : ''
-  end
-
-  def create_result_log
-    if @successes > 0
-      Import::Log.create_success(@plan, "Imported #{@successes} resources")
-    else
-      Import::Log.create_notice(@plan, "Imported #{@successes} resources")
-    end
   end
 end
