@@ -66,3 +66,23 @@ This allows you to use this fields for the import:
           ::User.create!(name: name, group: plan.user_group)
         end
     end
+
+= Extend Import::Command
+
+This Gem only deals with imports. However, often an import includes other tasks like deleting obsolete resources from the database. Extend the Import::Command to add custom code:
+
+    # config/initializers/import_command_extension.rb
+
+    # ensure local plan extensions are loaded
+    require_dependency 'app/models/import/plan'
+
+    module ImportCommandExtension
+      def around_collection(collection)
+        if import_all?
+          @plan.user_group.users.destroy_all
+        end
+        super
+      end
+    end
+
+    Import::Command.send(:prepend, ImportCommandExtension)
