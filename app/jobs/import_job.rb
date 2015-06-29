@@ -1,26 +1,24 @@
-class Import::Command
-  prepend Import::Commands::Logger
+class ImportJob < ActiveJob::Base
+  prepend Import::JobLogger
 
-  def self.continue_import(options = {})
-    Import::Plan.all.each do |plan|
-      new(plan, import_all: false).execute
+  queue_as :default
+
+  def perform(plan_or_all, import_all: false)
+    if plan_or_all == :all
+      for plan in Import::Plan
+        perform_plan(plan, import_all: import_all)
+      end
+    elsif plan_or_all.is_a?(Import::Plan)
+      perform_plan(plan_or_all, import_all: import_all)
     end
   end
 
-  def self.import_all(options = {})
-    Import::Plan.all.each do |plan|
-      new(plan, import_all: true).execute
-    end
-  end
-
-  def initialize(plan, import_all: false)
+  def perform_plan(plan, import_all: false)
     @plan = plan
     @url = plan.url
     @resource_class = plan.resource_class
     @import_all = import_all
-  end
 
-  def execute
     collection = resource_collection
     around_collection(collection) do
       collection.each do |resource|

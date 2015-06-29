@@ -5,6 +5,7 @@ module Import
         ActiveAdmin.application.load_paths += Dir["#{config.root}/app/models/**/"]
         ActiveAdmin.application.load_paths += Dir["#{config.root}/app/models/concerns/**/"]
         ActiveAdmin.application.load_paths += Dir["#{config.root}/app/admin/import/**/"]
+        ActiveAdmin.application.load_paths += Dir["#{config.root}/app/jobs/**/"]
       end
     end
   end

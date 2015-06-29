@@ -23,12 +23,6 @@ de:
   admin:
     import_plans:
       continue_import:
-        n_resources_imported:
-          zero: Keine Ressourcen importiert
-          one: Eine Ressource importiert
-          other: '%{count} Ressourcen importiert'
+        started_import: Import wird im Hintergrund ausgeführt
       import_all:
-        n_resources_imported:
-          zero: Keine Ressourcen importiert
-          one: Eine Ressource importiert
-          other: '%{count} Ressourcen importiert'
+        started_import: Import wird im Hintergrund ausgeführt

@@ -1,6 +1,4 @@
-module Import::Commands::Logger
-  extend ActiveSupport::Concern
-
+module Import::JobLogger
   def around_collection(collection)
     @successes = 0
     super

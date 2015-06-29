@@ -5,3 +5,9 @@ en:
         continue_import: Continue import
         import_all: Start new import
         are_you_sure: Are you sure?
+  admin:
+    import_plans:
+      continue_import:
+        started_import: Started import
+      import_all:
+        started_import: Started import

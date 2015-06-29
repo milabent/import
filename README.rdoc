@@ -30,7 +30,11 @@ Create a plan, e.g. via rails console:
 
 Run your plans, e.g. via rails console:
 
-    Import::Command::import_all
+    ImportJob.perform_later('all', import_all: true)
+
+    # or
+    
+    ImportJob.perform_later(Import::Plan.first, import_all: true)
 
 === Partial imports
 
@@ -40,9 +44,9 @@ You can add a placeholder to tell the server about the last successful import:
 
 This allows the server to reduce the export to latest changes. The placeholder is replaced with an UTC ISO 8610 time like 2015-06-25T13:19:06Z.
 
-To trigger a partial import you have to use continue_import instead of import_all:
+To trigger a partial import omit the import_all flag:
 
-    Import::Command::continue_import
+    ImportJob.perform_later('all')
 
 = Extend Import::Plan
 
@@ -67,16 +71,16 @@ This allows you to use this fields for the import:
       end
     end
 
-= Extend Import::Command
+= Extend ImportJob
 
-This Gem only deals with imports. However, often an import includes other tasks like deleting obsolete resources from the database. Extend the Import::Command to add custom code:
+This Gem only deals with imports. However, often an import includes other tasks like deleting obsolete resources from the database. Extend the ImportJob to add custom code:
 
-    # config/initializers/import_command_extension.rb
+    # config/initializers/import_job_extension.rb
 
     # ensure local plan extensions are loaded
     require_dependency 'app/models/import/plan'
 
-    module ImportCommandExtension
+    module ImportJobExtension
       def around_collection(collection)
         if import_all?
           @plan.user_group.users.destroy_all
@@ -85,4 +89,4 @@ This Gem only deals with imports. However, often an import includes other tasks 
       end
     end
 
-    Import::Command.send(:prepend, ImportCommandExtension)
+    ImportJob.send(:prepend, ImportJobExtension)
