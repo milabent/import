@@ -1,9 +1,9 @@
 de:
   activerecord:
     models:
-      import/plan:
-        one: Import-Plan
-        other: Import-Pläne
+      import/http_plan:
+        one: HTTP-Import-Plan
+        other: HTTP-Import-Pläne
       import/log:
         one: Import-Log
         other: Import-Logs
@@ -14,15 +14,9 @@ de:
         interval: Intervall
         created_at: Erstellt am
         updated_at: Geändert am
-  active_admin:
-    resource:
-      show:
-        continue_import: Import aktualisieren
-        import_all: Neuimport ausführen
-        are_you_sure: Sind Sie sicher?
   admin:
     import_plans:
-      continue_import:
-        started_import: Import wird im Hintergrund ausgeführt
-      import_all:
-        started_import: Import wird im Hintergrund ausgeführt
+      started_import: Import wird im Hintergrund ausgeführt
+      continue_import: Import aktualisieren
+      import_all: Neuimport ausführen
+      are_you_sure: Sind Sie sicher?
