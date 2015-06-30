@@ -5,9 +5,9 @@ class Import::Resources::HTTPBase < ActiveResource::Base
 
   self.site = ""
   
-  def self.with_import_url(import_url)
-    self.site = import_url
-    @import_url = import_url
+  def self.for_import_plan(plan)
+    self.site = plan.url
+    @import_url = plan.url
     self
   end
 

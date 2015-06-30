@@ -45,7 +45,7 @@ class ImportJob < ActiveJob::Base
 
   def resource_collection
     begin
-      @resource_class.with_import_url(url).all
+      @resource_class.for_import_plan(@plan).all
     rescue => e
       Import::Log.create_error(@plan, e.to_s)
       []
