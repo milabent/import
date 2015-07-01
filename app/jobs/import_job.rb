@@ -15,6 +15,7 @@ class ImportJob < ActiveJob::Base
 
   def perform_plan(plan, import_all: false)
     @plan = plan
+    @import_all = import_all
     @resource_class = @plan.resource_class
 
     collection = resource_collection
@@ -52,6 +53,6 @@ class ImportJob < ActiveJob::Base
 
   def last_success
     time = Import::Log.last_success(@plan).try(:created_at)
-    time && !import_all? ? time.utc.iso8601 : nil
+    time && !import_all? ? time : nil
   end
 end

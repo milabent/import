@@ -15,7 +15,8 @@ class Import::Resources::HTTPBase < ActiveResource::Base
   private
 
   def self.url(plan)
-    (plan.url || '').gsub('###LAST_SUCCESS###', (@last_success || ''))
+    time = @last_success ? @last_success.utc.iso8601 : ''
+    (plan.url || '').gsub('###LAST_SUCCESS###', (time || ''))
   end
 
   def self.collection_path(prefix_options = {}, query_options = nil)
