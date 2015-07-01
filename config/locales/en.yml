@@ -7,7 +7,7 @@ en:
         are_you_sure: Are you sure?
   admin:
     import_plans:
-      continue_import:
-        started_import: Started import
-      import_all:
-        started_import: Started import
+      started_import: Started import
+      import_changes: Import changes
+      import_all: Import all
+      are_you_sure: Are you sure?

@@ -21,6 +21,6 @@ de:
   admin:
     import_plans:
       started_import: Import wird im Hintergrund ausgeführt
-      continue_import: Import aktualisieren
-      import_all: Neuimport ausführen
+      import_changes: Änderungen importieren
+      import_all: Alles importieren
       are_you_sure: Sind Sie sicher?

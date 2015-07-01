@@ -24,13 +24,13 @@ if defined?(ActiveAdmin)
       redirect_to resource_path, notice: t('admin.import_plans.started_import')
     end
 
-    member_action :continue_import, method: :put do
+    member_action :import_changes, method: :put do
       ImportJob.perform_later(resource)
       redirect_to resource_path, notice: t('admin.import_plans.started_import')
     end
 
     action_item :view, only: :show do
-      link_to t('admin.import_plans.continue_import'), continue_import_admin_import_plan_path(import_plan), method: :put, data: { confirm: t('admin.import_plans.are_you_sure') }
+      link_to t('admin.import_plans.import_changes'), import_changes_admin_import_plan_path(import_plan), method: :put, data: { confirm: t('admin.import_plans.are_you_sure') }
     end
     action_item :view, only: :show do
       link_to t('admin.import_plans.import_all'), import_all_admin_import_plan_path(import_plan), method: :put, data: { confirm: t('admin.import_plans.are_you_sure') }
