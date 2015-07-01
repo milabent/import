@@ -13,6 +13,12 @@ if defined?(ActiveAdmin)
       actions
     end
 
+    form do |f|
+      f.inputs :name, :resource_type, :url, :database_connection, :database_table
+      f.inputs except: [:name, :resource_type, :url, :database_connection, :database_table, :interval]
+      f.actions
+    end
+
     member_action :import_all, method: :put do
       ImportJob.perform_later(resource, import_all: true)
       redirect_to resource_path, notice: t('admin.import_plans.started_import')
