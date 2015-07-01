@@ -15,9 +15,7 @@ class ImportJob < ActiveJob::Base
 
   def perform_plan(plan, import_all: false)
     @plan = plan
-    @url = plan.url
-    @resource_class = plan.resource_class
-    @import_all = import_all
+    @resource_class = @plan.resource_class
 
     collection = resource_collection
     around_collection(collection) do
@@ -45,19 +43,15 @@ class ImportJob < ActiveJob::Base
 
   def resource_collection
     begin
-      @resource_class.for_import_plan(@plan).all
+      @resource_class.for_import_plan(@plan, last_success: last_success).all
     rescue => e
       Import::Log.create_error(@plan, e.to_s)
       []
     end
   end
 
-  def url
-    (@url || '').gsub('###LAST_SUCCESS###', last_success)
-  end
-
   def last_success
     time = Import::Log.last_success(@plan).try(:created_at)
-    time && !import_all? ? time.utc.iso8601 : ''
+    time && !import_all? ? time.utc.iso8601 : nil
   end
 end
