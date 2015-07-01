@@ -1,22 +1,23 @@
 de:
   activerecord:
     models:
-      import/database_plan:
-        one: Datenbank-Import-Plan
-        other: Datenbank-Import-Pläne
-      import/http_plan:
-        one: HTTP-Import-Plan
-        other: HTTP-Import-Pläne
+      import/plan:
+        one: Import-Plan
+        other: Import-Pläne
       import/log:
         one: Import-Log
         other: Import-Logs
     attributes:
       import/plan:
         url: URL
+        database_connection: Datenbankverbindung
+        database_table: Datenbanktabelle
         resource_type: Ressourcentyp
         interval: Intervall
         created_at: Erstellt am
         updated_at: Geändert am
+        last_success_at: Letzter Erfolg
+        last_error_at: Letzter Fehler
   admin:
     import_plans:
       started_import: Import wird im Hintergrund ausgeführt

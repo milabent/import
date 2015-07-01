@@ -1,4 +1,5 @@
 class Import::Plan < ActiveRecord::Base
+  has_many :logs
   validates :name, :resource_type, presence: true
   validate :valid_resource_type
 
@@ -8,6 +9,14 @@ class Import::Plan < ActiveRecord::Base
     rescue NameError => e
       nil
     end
+  end
+
+  def last_success_at
+    logs.where(reason: :success).last.try(:created_at)
+  end
+
+  def last_error_at
+    logs.where(reason: :error).last.try(:created_at)
   end
 
   private

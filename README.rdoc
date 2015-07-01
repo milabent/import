@@ -24,7 +24,7 @@ Create your import resource:
 
 Create a plan, e.g. via rails console:
 
-    HTTPPlan.create(url: 'http://example.org/users', resource_type: 'Import::Resources::User')
+    Plan.create(url: 'http://example.org/users', resource_type: 'Import::Resources::User')
 
 == Run
 
@@ -40,7 +40,7 @@ Run your plans, e.g. via rails console:
 
 You can add a placeholder to tell the server about the last successful import:
 
-    HTTPPlan.create(url: 'http://example.org/users?continue_from=###LAST_SUCCESS###')
+    Plan.create(url: 'http://example.org/users?continue_from=###LAST_SUCCESS###')
 
 This allows the server to reduce the export to latest changes. The placeholder is replaced with an UTC ISO 8610 time like 2015-06-25T13:19:06Z.
 

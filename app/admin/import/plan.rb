@@ -1,14 +1,15 @@
 if defined?(ActiveAdmin)
-  ActiveAdmin.register ::Import::HTTPPlan do
-    menu priority: 98, parent: 'Import', label: -> { ::Import::HTTPPlan.model_name.human(count: 2) }
+  ActiveAdmin.register ::Import::Plan do
+    menu priority: 98, parent: 'Import', label: -> { ::Import::Plan.model_name.human(count: 2) }
     permit_params :url, :resource_type, :interval
 
     index do
       selectable_column
       id_column
       column :name
-      column :url
-      column :created_at
+      column :resource_type
+      column :last_success_at
+      column :last_error_at
       actions
     end
 
@@ -23,10 +24,10 @@ if defined?(ActiveAdmin)
     end
 
     action_item :view, only: :show do
-      link_to t('admin.import_plans.continue_import'), continue_import_admin_import_http_plan_path(import_http_plan), method: :put, data: { confirm: t('admin.import_plans.are_you_sure') }
+      link_to t('admin.import_plans.continue_import'), continue_import_admin_import_plan_path(import_plan), method: :put, data: { confirm: t('admin.import_plans.are_you_sure') }
     end
     action_item :view, only: :show do
-      link_to t('admin.import_plans.import_all'), import_all_admin_import_http_plan_path(import_http_plan), method: :put, data: { confirm: t('admin.import_plans.are_you_sure') }
+      link_to t('admin.import_plans.import_all'), import_all_admin_import_plan_path(import_plan), method: :put, data: { confirm: t('admin.import_plans.are_you_sure') }
     end
   end
 end
