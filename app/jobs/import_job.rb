@@ -4,8 +4,8 @@ class ImportJob < ActiveJob::Base
   queue_as :default
 
   def perform(plan_or_all, import_all: false)
-    if plan_or_all == :all
-      for plan in Import::Plan
+    if plan_or_all == :all || plan_or_all == 'all'
+      for plan in Import::Plan.all
         perform_plan(plan, import_all: import_all)
       end
     elsif plan_or_all.is_a?(Import::Plan)
