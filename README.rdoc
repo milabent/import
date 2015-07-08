@@ -79,17 +79,17 @@ This Gem deals with imports. However, often an import includes deleting obsolete
       validates :name, presence: true
 
       import do
-        User.find_or_initialize_by(id: id, import_plan: plan).
+        User.find_or_initialize_by(foreign_key: id, import_plan: plan).
           update!(name: name, role: role)
       end
 
       after_import_all do |plan, collection|
         User.where(import_plan: plan).
-          where.not(id: collection.map(&:id)).destroy_all
+          where.not(foreign_key: collection.map(&:id)).destroy_all
       end
     end
 
-In this example the user model saves the import plan, so that only related entries are deleted. Note that this approach doesn't work with `after_import_changes`, because the collection would only contain changed resources.
+In this example the user model saves the foreign ID and the import plan, so that only related entries are deleted. Note that this approach doesn't work with `after_import_changes`, because the collection would only contain changed resources.
 
 == Run automatically
 
