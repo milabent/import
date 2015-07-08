@@ -90,4 +90,17 @@ This Gem deals with imports. However, often an import includes deleting obsolete
     end
 
 In this example the user model saves the import plan, so that only related entries are deleted. Note that this approach doesn't work with `after_import_changes`, because the collection would only contain changed resources.
-    ImportJob.send(:prepend, ImportJobExtension)
+
+== Run automatically
+
+To run imports in the backround without triggering it manually you can use [Delayed Job](https://github.com/collectiveidea/delayed_job) and [Whenever](https://github.com/javan/whenever). This allows you to add the given rake tasks of this Gem to the schedule:
+
+    # config/schedule.rb
+
+    every 5.minutes do
+      rake 'import:changes'
+    end
+
+    every :monday, at: '4:50 am' do
+      rake 'import:all'
+    end
