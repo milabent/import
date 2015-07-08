@@ -26,6 +26,7 @@ class ImportJob < ActiveJob::Base
         end
       end
     end
+    call_after_import_hooks(collection)
   end
 
   protected
@@ -54,5 +55,16 @@ class ImportJob < ActiveJob::Base
   def last_success
     time = Import::Log.last_success(@plan).try(:created_at)
     time && !import_all? ? time : nil
+  end
+
+  def call_after_import_hooks(collection)
+    if @resource_class.respond_to?(:_after_import)
+      @resource_class._after_import(@plan, collection)
+    end
+    if import_all? && @resource_class.respond_to?(:_after_import_all)
+      @resource_class._after_import_all(@plan, collection)
+    elsif !import_all? && @resource_class.respond_to?(:_after_import_changes)
+      @resource_class._after_import_changes(@plan, collection)
+    end
   end
 end

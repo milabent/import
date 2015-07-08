@@ -18,7 +18,7 @@ Create your import resource:
     class Import::Resources::User < Import::Resources::HTTPBase
       validates :name, presence: true
       import do
-        ::User.create!(name: name)
+        User.find_or_initialize_by(id: id).update!(name: name, role: role)
       end
     end
 
@@ -36,7 +36,7 @@ Run your plans, e.g. via rails console:
     
     ImportJob.perform_later(Import::Plan.first, import_all: true)
 
-=== Partial imports
+== Import changes
 
 You can add a placeholder to tell the server about the last successful import:
 
@@ -48,7 +48,7 @@ To trigger a partial import omit the import_all flag:
 
     ImportJob.perform_later('all')
 
-= Extend Import::Plan
+== Extend Import::Plan
 
 Often you'll need additional information during the import. You can add fields via migration to table import_plans and extend the model like this:
 
@@ -71,22 +71,23 @@ This allows you to use this fields for the import:
       end
     end
 
-= Extend ImportJob
+== Delete old resources
 
-This Gem only deals with imports. However, often an import includes other tasks like deleting obsolete resources from the database. Extend the ImportJob to add custom code:
+This Gem deals with imports. However, often an import includes deleting obsolete resources from the database. To run code after the import you can use one of the hooks `after_import_all`, `after_import_changes` or `after_import` (the latter running in both cases):
 
-    # config/initializers/import_job_extension.rb
+    class Import::Resources::User < Import::Resources::HTTPBase
+      validates :name, presence: true
 
-    # ensure local plan extensions are loaded
-    require_dependency 'app/models/import/plan'
+      import do
+        User.find_or_initialize_by(id: id, import_plan: plan).
+          update!(name: name, role: role)
+      end
 
-    module ImportJobExtension
-      def around_collection(collection)
-        if import_all?
-          @plan.user_group.users.destroy_all
-        end
-        super
+      after_import_all do |plan, collection|
+        User.where(import_plan: plan).
+          where.not(id: collection.map(&:id)).destroy_all
       end
     end
 
+In this example the user model saves the import plan, so that only related entries are deleted. Note that this approach doesn't work with `after_import_changes`, because the collection would only contain changed resources.
     ImportJob.send(:prepend, ImportJobExtension)
