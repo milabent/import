@@ -1,5 +1,6 @@
 = Import
 
+
 == Install
 
 Add Import to your Gemfile:
@@ -10,6 +11,7 @@ Import migrations and execute them:
 
     rake import_engine:install:migrations
     rake db:migrate
+
 
 == Prepare
 
@@ -26,6 +28,7 @@ Create a plan, e.g. via rails console:
 
     Plan.create(url: 'http://example.org/users', resource_type: 'Import::Resources::User')
 
+
 == Run
 
 Run your plans, e.g. via rails console:
@@ -35,6 +38,7 @@ Run your plans, e.g. via rails console:
     # or
     
     ImportJob.perform_later(Import::Plan.first, import_all: true)
+
 
 == Import changes
 
@@ -47,6 +51,40 @@ This allows the server to reduce the export to latest changes. The placeholder i
 To trigger a partial import omit the import_all flag:
 
     ImportJob.perform_later('all')
+
+
+== Data sources
+
+This gem imports resources from HTTP JSON (based on ActiveResource) and database (based on ActiveRecord).
+
+=== HTTP JSON
+
+Configure your plan with a URL to a complete JSON index of the resources you want to import:
+
+    Plan.create(url: 'http://example.org/users', resource_type: 'Import::Resources::User')
+
+    # or add token for HTTP basic authentication:
+
+    Plan.create(url: 'http://example.org/users', api_access_token: 'token123', resource_type: 'Import::Resources::User')
+
+Your resource must implement `Import::Resources::HTTPBase`:
+
+    class Import::Resources::User < Import::Resources::HTTPBase
+      # ...
+    end
+
+=== Database
+
+Configure your plan with the name of the database table:
+
+    Plan.create(database_table: 'users', resource_type: 'Import::Resources::User')
+
+Your resource must implement `Import::Resources::DatabaseBase`:
+
+    class Import::Resources::User < Import::Resources::DatabaseBase
+      # ...
+    end
+
 
 == Extend Import::Plan
 
@@ -71,6 +109,7 @@ This allows you to use this fields for the import:
       end
     end
 
+
 == Delete old resources
 
 This Gem deals with imports. However, often an import includes deleting obsolete resources from the database. To run code after the import you can use one of the hooks `after_import_all`, `after_import_changes` or `after_import` (the latter running in both cases):
@@ -90,6 +129,7 @@ This Gem deals with imports. However, often an import includes deleting obsolete
     end
 
 In this example the user model saves the foreign ID and the import plan, so that only related entries are deleted. Note that this approach doesn't work with `after_import_changes`, because the collection would only contain changed resources.
+
 
 == Run automatically
 
