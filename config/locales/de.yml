@@ -10,6 +10,7 @@ de:
     attributes:
       import/plan:
         url: URL
+        api_access_token: Access-Token für API
         database_connection: Datenbankverbindung
         database_table: Datenbanktabelle
         resource_type: Ressourcentyp

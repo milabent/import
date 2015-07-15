@@ -9,6 +9,9 @@ class Import::Resources::HTTPBase < ActiveResource::Base
     @last_success = last_success
     @import_url = url(plan)
     self.site = @import_url
+    if plan.api_access_token.present?
+      self.headers['Authorization'] = "Token token=\"#{plan.api_access_token}\""
+    end
     self
   end
 

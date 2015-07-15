@@ -1,7 +1,7 @@
 if defined?(ActiveAdmin)
   ActiveAdmin.register ::Import::Plan do
     menu priority: 98, parent: 'Import', label: -> { ::Import::Plan.model_name.human(count: 2) }
-    permit_params :url, :resource_type, :interval
+    permit_params :url, :resource_type, :interval, :api_access_token
 
     index do
       selectable_column
@@ -14,8 +14,9 @@ if defined?(ActiveAdmin)
     end
 
     form do |f|
-      f.inputs :name, :resource_type, :url, :database_connection, :database_table
-      f.inputs except: [:name, :resource_type, :url, :database_connection, :database_table, :interval]
+      heading_inputs = [:name, :resource_type, :url, :api_access_token, :database_connection, :database_table]
+      f.inputs *heading_inputs
+      f.inputs except: (heading_inputs + [:interval])
       f.actions
     end
 
