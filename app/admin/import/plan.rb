@@ -34,7 +34,7 @@ if defined?(ActiveAdmin)
       link_to t('admin.import_plans.import_changes'), url_for(action: :import_changes), method: :put, data: { confirm: t('admin.import_plans.are_you_sure') }
     end
     action_item :view, only: :show do
-      link_to t('admin.import_plans.import_all'), url_for(action: :import_changes), method: :put, data: { confirm: t('admin.import_plans.are_you_sure') }
+      link_to t('admin.import_plans.import_all'), url_for(action: :import_all), method: :put, data: { confirm: t('admin.import_plans.are_you_sure') }
     end
   end
 end
