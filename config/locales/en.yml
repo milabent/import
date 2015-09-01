@@ -2,12 +2,14 @@ en:
   active_admin:
     resource:
       show:
+        are_you_sure: Are you sure?
         continue_import: Continue import
         import_all: Start new import
-        are_you_sure: Are you sure?
   admin:
     import_plans:
-      started_import: Started import
-      import_changes: Import changes
-      import_all: Import all
       are_you_sure: Are you sure?
+      copied_plan: Copied plan
+      copy: Copy plan
+      import_all: Import all
+      import_changes: Import changes
+      started_import: Started import

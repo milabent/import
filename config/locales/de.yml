@@ -21,7 +21,9 @@ de:
         last_error_at: Letzter Fehler
   admin:
     import_plans:
-      started_import: Import wird im Hintergrund ausgeführt
-      import_changes: Änderungen importieren
-      import_all: Alles importieren
       are_you_sure: Sind Sie sicher?
+      copied_plan: Import-Plan kopiert
+      import_all: Alles importieren
+      import_changes: Änderungen importieren
+      started_import: Import wird im Hintergrund ausgeführt
+      copy: Import-Plan kopieren

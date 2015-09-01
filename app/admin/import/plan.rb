@@ -32,10 +32,19 @@ if defined?(ActiveAdmin)
       redirect_to resource_path, notice: t('admin.import_plans.started_import')
     end
 
-    action_item :view, only: :show do
+    member_action :copy, method: :post do
+      copy = resource.build_copy
+      copy.save!
+      redirect_to({ action: :edit, id: copy.id }, notice: t('admin.import_plans.copied_plan'))
+    end
+
+    action_item :copy, only: :show do
+      link_to t('admin.import_plans.copy'), url_for(action: :copy), method: :post, data: { confirm: t('admin.import_plans.are_you_sure') }
+    end
+    action_item :import_changes, only: :show do
       link_to t('admin.import_plans.import_changes'), url_for(action: :import_changes), method: :put, data: { confirm: t('admin.import_plans.are_you_sure') }
     end
-    action_item :view, only: :show do
+    action_item :import_all, only: :show do
       link_to t('admin.import_plans.import_all'), url_for(action: :import_all), method: :put, data: { confirm: t('admin.import_plans.are_you_sure') }
     end
   end

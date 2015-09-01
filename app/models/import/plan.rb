@@ -19,6 +19,12 @@ class Import::Plan < ActiveRecord::Base
     logs.where(reason: :error).last.try(:created_at)
   end
 
+  def build_copy
+    copy = self.class.new(attributes.except('id'))
+    copy.name += ' (copy)'
+    copy
+  end
+
   private
 
   def valid_resource_type
