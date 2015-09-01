@@ -3,6 +3,8 @@ if defined?(ActiveAdmin)
     menu priority: 98, parent: 'Import', label: -> { ::Import::Plan.model_name.human(count: 2) }
     permit_params :url, :resource_type, :interval, :api_access_token
 
+    filter :name
+
     index do
       selectable_column
       id_column
