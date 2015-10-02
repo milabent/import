@@ -20,7 +20,7 @@ class Import::Plan < ActiveRecord::Base
   end
 
   def build_copy
-    copy = self.class.new(attributes.except('id'))
+    copy = self.class.new(attributes.except('id', 'created_at', 'updated_at'))
     copy.name += ' (copy)'
     copy
   end

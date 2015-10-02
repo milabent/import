@@ -16,7 +16,7 @@ if defined?(ActiveAdmin)
     end
 
     form do |f|
-      heading_inputs = [:name, :resource_type, :url, :api_access_token, :database_connection, :database_table]
+      heading_inputs = [:name, :resource_type, :url, :api_access_token, :api_user, :api_password, :database_connection, :database_table]
       f.inputs *heading_inputs
       f.inputs except: (heading_inputs + [:interval])
       f.actions

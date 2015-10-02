@@ -12,6 +12,12 @@ class Import::Resources::HTTPBase < ActiveResource::Base
     if plan.api_access_token.present?
       self.headers['Authorization'] = "Token token=\"#{plan.api_access_token}\""
     end
+    if plan.api_user.present?
+      self.user = plan.api_user
+    end
+    if plan.api_password.present?
+      self.password = plan.api_password
+    end
     self
   end
 
