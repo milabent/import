@@ -11,6 +11,8 @@ de:
       import/plan:
         url: URL
         api_access_token: Access-Token für API
+        api_user: Benutzername für API
+        api_password: Passwort für API
         database_connection: Datenbankverbindung
         database_table: Datenbanktabelle
         resource_type: Ressourcentyp
