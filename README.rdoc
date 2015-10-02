@@ -63,9 +63,13 @@ Configure your plan with a URL to a complete JSON index of the resources you wan
 
     Plan.create(url: 'http://example.org/users', resource_type: 'Import::Resources::User')
 
-    # or add token for HTTP basic authentication:
+    # or with access token:
 
     Plan.create(url: 'http://example.org/users', api_access_token: 'token123', resource_type: 'Import::Resources::User')
+
+    # or with username and password:
+
+    Plan.create(url: 'http://example.org/users', user: 'user', password: 'password', resource_type: 'Import::Resources::User')
 
 Your resource must implement `Import::Resources::HTTPBase`:
 
